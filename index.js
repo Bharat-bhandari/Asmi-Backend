@@ -29,6 +29,10 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 //   res.json("test ok");
 // });
 
+app.get("/", (req, res) => {
+  res.send("Hello World, from express and Bharat");
+});
+
 app.use(authRoutes);
 app.use(postRoutes);
 app.use(mailRoutes);
