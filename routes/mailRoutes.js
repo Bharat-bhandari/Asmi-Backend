@@ -37,6 +37,6 @@ router.post(
   mailControllers.postAsseemnetMail
 );
 
-router.post("/send-email", mailControllers.postMail);
+router.post("/api/send-email", mailControllers.postMail);
 
 module.exports = router;
