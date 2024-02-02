@@ -18,25 +18,16 @@ const PORT = process.env.PORT || 4001;
 const mongoURI = process.env.MONGO_URL;
 
 // middlewares
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://13.233.9.241:5173/" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
-
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   next();
-// });
 // end of middlewares
 
 // app.get("/test", (req, res) => {
 //   res.json("test ok");
 // });
-
-app.get("/", (req, res) => {
-  res.send("Hello World, from express and Bharat");
-});
 
 app.use(authRoutes);
 app.use(postRoutes);
