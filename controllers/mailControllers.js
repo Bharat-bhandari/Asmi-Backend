@@ -6,13 +6,13 @@ function sendEmail({ recipient_email, message }) {
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: "bharatbhandari1024@gmail.com",
+        pass: "kemh auno ekbl tzil",
       },
     });
 
     const mail_configs = {
-      from: process.env.EMAIL_USER,
+      from: "bharatbhandari1024@gmail.com",
       to: recipient_email,
       subject: "Hello world",
       text: message,
@@ -407,6 +407,7 @@ exports.postYogaMail = async (req, res) => {
     res.status(500).send("Error handling uploads");
   }
 };
+
 exports.postAsseemnetMail = async (req, res) => {
   try {
     let transporter = nodemailer.createTransport({
