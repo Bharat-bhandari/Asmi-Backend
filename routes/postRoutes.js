@@ -15,4 +15,8 @@ router.post(
 
 router.get("/post", postControllers.getBlogs);
 
+router.get("/post/:id", postControllers.getSingleBlogs);
+
+router.delete("/post/:id", postControllers.deleteSingleBlog);
+
 module.exports = router;
