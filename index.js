@@ -18,13 +18,7 @@ const PORT = process.env.PORT || 4001;
 const mongoURI = process.env.MONGO_URL;
 
 // middlewares
-app.use(
-  cors({
-    origin: "https://asmi.life",
-    credentials: true,
-  })
-);
-
+app.use(cors({ credentials: true, origin: "https://asmi.life" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
