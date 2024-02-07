@@ -25,9 +25,9 @@ app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 // end of middlewares
 
-// app.get("/test", (req, res) => {
-//   res.json("test ok");
-// });
+app.get("/", (req, res) => {
+  res.json("test ok");
+});
 
 app.use(authRoutes);
 app.use(postRoutes);
