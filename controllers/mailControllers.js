@@ -1,6 +1,19 @@
 const nodemailer = require("nodemailer");
 const fs = require("fs");
 
+const Vendor = require("../models/VendorModel");
+const Career = require("../models/CareerModel");
+const MIntern = require("../models/MarketingIntern");
+const PIntern = require("../models/PsychoIntern");
+
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 function sendEmail({ recipient_email, message }) {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
@@ -99,19 +112,16 @@ exports.postCareerMail = async (req, res) => {
     const file1 = req.files["degree"][0]; // Access the first file uploaded with field name 'file1'
     const file2 = req.files["cv"][0]; // Access the first file uploaded with field name 'file2'
 
-    // Process file1
-    const { originalname: originalname1, path: path1 } = file1;
-    const parts1 = originalname1.split(".");
-    const ext1 = parts1[parts1.length - 1];
-    const newPath1 = path1 + "." + ext1;
-    fs.renameSync(path1, newPath1);
+    const response1 = await cloudinary.uploader.upload(file1.path, {
+      resource_type: "auto",
+    });
 
-    // Process file2
-    const { originalname: originalname2, path: path2 } = file2;
-    const parts2 = originalname2.split(".");
-    const ext2 = parts2[parts2.length - 1];
-    const newPath2 = path2 + "." + ext2;
-    fs.renameSync(path2, newPath2);
+    const response2 = await cloudinary.uploader.upload(file2.path, {
+      resource_type: "auto",
+    });
+
+    const path1 = response1.secure_url;
+    const path2 = response2.secure_url;
 
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -141,39 +151,61 @@ exports.postCareerMail = async (req, res) => {
       specialization,
     } = req.body;
 
+    await Career.create({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      address,
+      highDegree,
+      universityName,
+      yearOfGraduation: yog,
+      languageKnown: lanKnown,
+      Rci,
+      noYearPractice: noyPractice,
+      expRes,
+      expText,
+      shareSession,
+      noHour: noh,
+      available,
+      specialization,
+      degreeImage: path1, // Store degree image URL
+      cvImage: path2, // Store CV image URL
+    });
+
     const emailMessage = `
-New Form Submission:
+    New Form Submission:
 
-Personal Information:
-- FirstName:  ${firstName}
-- LastName:  ${lastName}
-- Email:  ${email}
-- PhoneNo:  ${phoneNumber}
-- Address:  ${address}
+    Personal Information:
+    - FirstName:  ${firstName}
+    - LastName:  ${lastName}
+    - Email:  ${email}
+    - PhoneNo:  ${phoneNumber}
+    - Address:  ${address}
 
-Educational Background:
-- High Degree Earned:  ${highDegree}
-- Name of University:  ${universityName}
-- Year of Graduation:  ${yog}
+    Educational Background:
+    - High Degree Earned:  ${highDegree}
+    - Name of University:  ${universityName}
+    - Year of Graduation:  ${yog}
 
-- Languages Known: ${lanKnown}
+    - Languages Known: ${lanKnown}
 
-Professional Credentials:
-- RCI Number:  ${Rci}
-- No. of years practicing as a Psychologist:  ${noyPractice}
+    Professional Credentials:
+    - RCI Number:  ${Rci}
+    - No. of years practicing as a Psychologist:  ${noyPractice}
 
-Online Counselling Experience:
-- Do you have experience in Online Counselling?:  ${expRes}
-- If yes, please describe your experience in online counselling:  ${expText}
-- Share a challenging counselling session:  ${shareSession}
+    Online Counselling Experience:
+    - Do you have experience in Online Counselling?:  ${expRes}
+    - If yes, please describe your experience in online counselling:  ${expText}
+    - Share a challenging counselling session:  ${shareSession}
 
-Availability:
-- How many hours a day can you dedicate to our App?:  ${noh}
-- Are you available for online sessions during night hours?:  ${available}
+    Availability:
+    - How many hours a day can you dedicate to our App?:  ${noh}
+    - Are you available for online sessions during night hours?:  ${available}
 
-Specializations:
-- List your specializations:  ${specialization}
-`;
+    Specializations:
+    - List your specializations:  ${specialization}
+    `;
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
@@ -182,20 +214,22 @@ Specializations:
       text: emailMessage,
       attachments: [
         {
-          filename: originalname1,
-          path: newPath1,
+          filename: file1.originalname,
+          path: file1.path,
         },
         {
-          filename: originalname2,
-          path: newPath2,
+          filename: file2.originalname,
+          path: file2.path,
         },
       ],
     };
 
+    // console.log(mailOptions);
+
     await transporter.sendMail(mailOptions);
 
-    fs.unlinkSync(newPath1);
-    fs.unlinkSync(newPath2);
+    fs.unlinkSync(file1.path);
+    fs.unlinkSync(file2.path);
 
     // Send response
     res.send("Uploads successful");
@@ -209,53 +243,31 @@ exports.postVendorMail = async (req, res) => {
   try {
     // Access the uploaded files from req.files
     const file1 = req.files["panCard"][0];
-    let file2;
-    if (req.files["gstFile"]) {
-      file2 = req.files["gstFile"][0];
-    }
+    const file2 = req.files["gstFile"] ? req.files["gstFile"][0] : null;
     const file3 = req.files["cheque"][0];
 
-    // Process file1
-    const { originalname: originalname1, path: path1 } = file1;
-    const parts1 = originalname1.split(".");
-    const ext1 = parts1[parts1.length - 1];
-    const newPath1 = path1 + "." + ext1;
-    fs.renameSync(path1, newPath1);
+    // Upload images to Cloudinary
+    const uploadPromises = [
+      cloudinary.uploader.upload(file1.path, { resource_type: "auto" }),
+      cloudinary.uploader.upload(file3.path, { resource_type: "auto" }),
+    ];
 
-    // Process file2 if it exists
-    let newPath2 = "";
-
-    // console.log(file2);
-
-    let originalname2 = "";
-    let path2 = "";
-
+    // Upload file2 if it exists
     if (file2) {
-      // console.log("in file 2");
-      // const { originalname: originalname2, path: path2 } = file2;
-      originalname2 = file2.originalname;
-      path2 = file2.path;
-      const parts2 = originalname2.split(".");
-      const ext2 = parts2[parts2.length - 1];
-      newPath2 = path2 + "." + ext2;
-      fs.renameSync(path2, newPath2);
+      uploadPromises.push(cloudinary.uploader.upload(file2.path), {
+        resource_type: "auto",
+      });
     }
 
-    // Process file3
-    const { originalname: originalname3, path: path3 } = file3;
-    const parts3 = originalname3.split(".");
-    const ext3 = parts3[parts3.length - 1];
-    const newPath3 = path3 + "." + ext3;
-    fs.renameSync(path3, newPath3);
+    // Wait for all uploads to complete
+    const results = await Promise.all(uploadPromises);
 
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    // Extract image URLs
+    const [panCardImage, chequeImage, gstImage] = results.map(
+      (result) => result.secure_url
+    );
 
+    // Extract data from req.body
     const {
       firstName,
       lastName,
@@ -265,7 +277,6 @@ exports.postVendorMail = async (req, res) => {
       companyName,
       orgType,
       address,
-      companyAddress,
       state,
       pinCode,
       gstin,
@@ -277,49 +288,81 @@ exports.postVendorMail = async (req, res) => {
       ifsc,
     } = req.body;
 
+    // Create a new vendor document with image URLs
+    const newVendor = await Vendor.create({
+      firstName,
+      lastName,
+      email,
+      mobile,
+      designation,
+      companyName,
+      orgType,
+      address,
+      state,
+      pinCode,
+      gstin,
+      companyPan,
+      bankAccountName,
+      bankAccountNumber,
+      bankName,
+      bankBranchState,
+      ifsc,
+      panCardImage,
+      gstImage,
+      chequeImage,
+    });
+
+    // Send email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
     const emailMessage = `
-    Vendor Onboarding Form Submission:
-    
-    Personal Information:
-    - FirstName: ${firstName}
-    - Last Name: ${lastName}
-    - Email: ${email}
-    - Mobile: ${mobile}
-    - Designation: ${designation}
-    
-    Company Information:
-    - Company Name: ${companyName}
-    - Type of Organisation: ${orgType}
-    
-    Address Information:
-    - Address: ${address}
-    - Registered Company Address: ${companyAddress}
-    - State/UT: ${state}
-    - PIN Code: ${pinCode}
-    - GSTIN: ${gstin}
-    
-    Bank Information:
-    - Company PAN: ${companyPan}
-    - Bank Account Name: ${bankAccountName}
-    - Bank Account Number: ${bankAccountNumber}
-    - Bank Name: ${bankName}
-    - Bank Branch & State: ${bankBranchState}
-    - IFSC: ${ifsc}
+      Vendor Onboarding Form Submission:
+
+      Personal Information:
+      - FirstName: ${firstName}
+      - Last Name: ${lastName}
+      - Email: ${email}
+      - Mobile: ${mobile}
+      - Designation: ${designation}
+
+      Company Information:
+      - Company Name: ${companyName}
+      - Type of Organisation: ${orgType}
+
+      Address Information:
+      - Address: ${address}
+      - State/UT: ${state}
+      - PIN Code: ${pinCode}
+      - GSTIN: ${gstin}
+
+      Bank Information:
+      - Company PAN: ${companyPan}
+      - Bank Account Name: ${bankAccountName}
+      - Bank Account Number: ${bankAccountNumber}
+      - Bank Name: ${bankName}
+      - Bank Branch & State: ${bankBranchState}
+      - IFSC: ${ifsc}
     `;
 
-    let mailOptions = {
+    const mailOptions = {
       from: process.env.EMAIL_USER,
       to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
       subject: "New Vendor Form Submission",
       text: emailMessage,
       attachments: [
         {
-          filename: originalname1,
-          path: newPath1,
+          filename: file1.originalname,
+          path: file1.path,
         },
         {
-          filename: originalname3,
-          path: newPath3,
+          filename: file3.originalname,
+          path: file3.path,
         },
       ],
     };
@@ -327,20 +370,18 @@ exports.postVendorMail = async (req, res) => {
     // Add the GST file attachment only if it exists
     if (file2) {
       mailOptions.attachments.push({
-        filename: originalname2,
-        path: newPath2,
+        filename: file2.originalname,
+        path: file2.path,
       });
     }
 
     await transporter.sendMail(mailOptions);
 
-    fs.unlinkSync(newPath1);
-    fs.unlinkSync(newPath3);
-
-    // If file2 exists, delete it too
-    if (newPath2) {
-      fs.unlinkSync(newPath2);
+    fs.unlinkSync(file1.path);
+    if (file2) {
+      fs.unlinkSync(file2.path);
     }
+    fs.unlinkSync(file3.path);
 
     // Send response
     res.send("Uploads successful");
@@ -379,9 +420,8 @@ exports.postmInternMail = async (req, res) => {
     } = req.body;
 
     const emailMessage = `
-    Asmi - New Psychology Internship Form:
+    Asmi - New Marketing Internship Form:
 
-    
     Personal Information:
     - FirstName: ${firstName}
     - LastName: ${lastName}
@@ -416,16 +456,19 @@ exports.postmInternMail = async (req, res) => {
     let mailOptions = {
       from: process.env.EMAIL_USER,
       to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
-      subject: "New Form Submission",
+      subject: "New Marketing Internship Form Submission",
       text: emailMessage,
     };
 
     await transporter.sendMail(mailOptions);
 
-    res.send("sent mail successful");
+    // Save the form data to the database
+    await MIntern.create(req.body);
+
+    res.send("Form submission successful");
   } catch (error) {
-    console.error("Error handling uploads:", error);
-    res.status(500).send("Error handling uploads");
+    console.error("Error handling form submission:", error);
+    res.status(500).send("Error handling form submission");
   }
 };
 
@@ -487,16 +530,19 @@ exports.postpInternMail = async (req, res) => {
     let mailOptions = {
       from: process.env.EMAIL_USER,
       to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
-      subject: "New Form Submission",
+      subject: "New Psychology Internship Form Submission",
       text: emailMessage,
     };
 
     await transporter.sendMail(mailOptions);
 
-    res.send("sent mail successful");
+    // Save the form data to the database
+    await PIntern.create(req.body);
+
+    res.send("Form submission successful");
   } catch (error) {
-    console.error("Error handling uploads:", error);
-    res.status(500).send("Error handling uploads");
+    console.error("Error handling form submission:", error);
+    res.status(500).send("Error handling form submission");
   }
 };
 
