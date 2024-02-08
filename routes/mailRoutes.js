@@ -25,6 +25,16 @@ router.post(
   mailControllers.postCareerMail
 );
 
+router.post(
+  "/send-vendor-form",
+  uploads.fields([
+    { name: "panCard", maxCount: 1 },
+    { name: "gstFile", maxCount: 1 },
+    { name: "cheque", maxCount: 1 },
+  ]),
+  mailControllers.postVendorMail
+);
+
 router.post("/send-mIntern", uploads.none(), mailControllers.postmInternMail);
 
 router.post("/send-pIntern", uploads.none(), mailControllers.postpInternMail);
