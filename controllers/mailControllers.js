@@ -35,7 +35,9 @@ function sendEmail({ recipient_email, message, userName }) {
 
     const mail_configs = {
       from: process.env.EMAIL_USER,
-      to: recipient_email,
+      to: "hello@asmi.life",
+      cc: "general.care@anjanajyoti.org",
+
       subject: "New Message from Contact us - Asmi",
       text: emailMessage,
     };
@@ -57,6 +59,7 @@ exports.postMail = (req, res) => {
     .catch((error) => res.status(500).send(error.message));
 };
 
+//test
 exports.postFormMail = async (req, res) => {
   try {
     // Access the uploaded files from req.files
@@ -114,6 +117,7 @@ exports.postFormMail = async (req, res) => {
     res.status(500).send("Error handling uploads");
   }
 };
+// test
 
 exports.postCareerMail = async (req, res) => {
   try {
@@ -218,7 +222,8 @@ exports.postCareerMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
+      to: "Tanvi.gupta@asmi.life", // Change this to the recipient's email address
+      cc: "general.care@anjanajyoti.org",
       subject: "New Career Form Submission",
       text: emailMessage,
       attachments: [
@@ -361,7 +366,8 @@ exports.postVendorMail = async (req, res) => {
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
+      to: "ayushi@anjanajyoti.org", // Change this to the recipient's email address
+      cc: "general.care@anjanajyoti.org",
       subject: "New Vendor Form Submission",
       text: emailMessage,
       attachments: [
@@ -464,7 +470,8 @@ exports.postmInternMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
+      to: "arvinder@anjanajyoti.org", // Change this to the recipient's email address
+      cc: "general.care@anjanajyoti.org",
       subject: "New Marketing Internship Form Submission",
       text: emailMessage,
     };
@@ -538,7 +545,9 @@ exports.postpInternMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
+      to: "Felicia@asmi.life", // Change this to the recipient's email address
+      cc: "general.care@anjanajyoti.org",
+
       subject: "New Psychology Internship Form Submission",
       text: emailMessage,
     };
@@ -594,7 +603,9 @@ exports.postYogaMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
+      to: "arvinder@anjanajyoti.org", // Change this to the recipient's email address
+      cc: "general.care@anjanajyoti.org",
+
       subject: "New Form Submission",
       text: emailMessage,
     };
@@ -632,7 +643,9 @@ exports.postAsseemnetMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
+      to: "hello@asmi.life", // Change this to the recipient's email address
+      cc: "general.care@anjanajyoti.org",
+
       subject: "New Form Submission",
       text: emailMessage,
     };
