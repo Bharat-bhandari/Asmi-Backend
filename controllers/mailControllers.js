@@ -14,7 +14,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-function sendEmail({ recipient_email, message }) {
+function sendEmail({ recipient_email, message, userName }) {
   return new Promise((resolve, reject) => {
     var transporter = nodemailer.createTransport({
       service: "gmail",
@@ -24,11 +24,20 @@ function sendEmail({ recipient_email, message }) {
       },
     });
 
+    const emailMessage = `
+    New Message from Contact Form
+
+    - UserName: ${userName}
+    - UserEmail: ${recipient_email}
+    - userMessage: ${message}
+    
+    `;
+
     const mail_configs = {
       from: process.env.EMAIL_USER,
       to: recipient_email,
-      subject: "Hello world",
-      text: message,
+      subject: "New Message from Contact us - Asmi",
+      text: emailMessage,
     };
     transporter.sendMail(mail_configs, function (error, info) {
       if (error) {
