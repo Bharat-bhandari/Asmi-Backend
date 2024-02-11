@@ -222,7 +222,7 @@ exports.postCareerMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "Tanvi.gupta@asmi.life", // Change this to the recipient's email address
+      to: "careers@asmi.life", // Change this to the recipient's email address
       cc: "general.care@anjanajyoti.org",
       subject: "New Career Form Submission",
       text: emailMessage,
