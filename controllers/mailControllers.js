@@ -5,6 +5,7 @@ const Vendor = require("../models/VendorModel");
 const Career = require("../models/CareerModel");
 const MIntern = require("../models/MarketingIntern");
 const PIntern = require("../models/PsychoIntern");
+const Counselor = require("../models/OnboardingModel");
 
 const cloudinary = require("cloudinary").v2;
 
@@ -250,6 +251,170 @@ exports.postCareerMail = async (req, res) => {
   } catch (error) {
     console.error("Error handling uploads:", error);
     res.status(500).send("Error handling uploads");
+  }
+};
+
+exports.postOnboardingMail = async (req, res) => {
+  try {
+    // Access the uploaded files from req.files
+    const photoFile = req.files["photo"][0];
+    const certificatesFile = req.files["certificates"][0];
+    const panFile = req.files["panFile"][0];
+    const aadharFile = req.files["aadharFile"][0];
+    const chequeFile = req.files["chequeFile"][0];
+
+    // Upload files to Cloudinary
+    const uploadPromises = [
+      cloudinary.uploader.upload(photoFile.path, { resource_type: "auto" }),
+      cloudinary.uploader.upload(certificatesFile.path, {
+        resource_type: "auto",
+      }),
+      cloudinary.uploader.upload(panFile.path, { resource_type: "auto" }),
+      cloudinary.uploader.upload(aadharFile.path, { resource_type: "auto" }),
+      cloudinary.uploader.upload(chequeFile.path, { resource_type: "auto" }),
+    ];
+
+    // Wait for all uploads to complete
+    const results = await Promise.all(uploadPromises);
+
+    // Extract file URLs
+    const [photoUrl, certificatesUrl, panUrl, aadharUrl, chequeUrl] =
+      results.map((result) => result.secure_url);
+
+    // Extract data from req.body
+    const {
+      firstName,
+      lastName,
+      email,
+      mobile,
+      birthday,
+      presentAddress,
+      gender,
+      about,
+      qualification,
+      workExperience,
+      psychologistExperience,
+      specializations,
+      reference,
+      referenceContact,
+      accountName,
+      accountNumber,
+      bankName,
+      branchName,
+      ifsc,
+      accountType,
+      preferredTimings,
+      preferredLanguage,
+    } = req.body;
+
+    // Create a new counselor document with file URLs
+    const newCounselor = await Counselor.create({
+      firstName,
+      lastName,
+      email,
+      mobile,
+      birthday,
+      presentAddress,
+      gender,
+      about,
+      qualification,
+      workExperience,
+      psychologistExperience,
+      specializations,
+      reference,
+      referenceContact,
+      accountName,
+      accountNumber,
+      bankName,
+      branchName,
+      ifsc,
+      accountType,
+      preferredTimings,
+      preferredLanguage,
+      photoUrl,
+      certificatesUrl,
+      panUrl,
+      aadharUrl,
+      chequeUrl,
+    });
+
+    // Send email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: "tanvi.gupta@asmi.life", // Change this to the recipient's email address
+      cc: "general.care@anjanajyoti.org",
+      subject: "New Counselor Onboarding Form Submission",
+      html: `
+        <p>Dear Admin,</p>
+        <p>A new counselor onboarding form has been submitted with the following details:</p>
+        <p>First Name: ${firstName}</p>
+        <p>Last Name: ${lastName}</p>
+        <p>Email: ${email}</p>
+        <p>Mobile: ${mobile}</p>
+        <p>Birthday: ${birthday}</p>
+        <p>Present Address: ${presentAddress}</p>
+        <p>Gender: ${gender}</p>
+        <p>About: ${about}</p>
+        <p>Qualification: ${qualification}</p>
+        <p>Work Experience: ${workExperience}</p>
+        <p>Psychologist Experience: ${psychologistExperience}</p>
+        <p>Specializations: ${specializations}</p>
+        <p>Reference: ${reference}</p>
+        <p>Reference Contact: ${referenceContact}</p>
+        <p>Bank Account Name: ${accountName}</p>
+        <p>Bank Account Number: ${accountNumber}</p>
+        <p>Bank Name: ${bankName}</p>
+        <p>Branch Name: ${branchName}</p>
+        <p>IFSC: ${ifsc}</p>
+        <p>Account Type: ${accountType}</p>
+        <p>Preferred Timings: ${preferredTimings}</p>
+        <p>Preferred Language: ${preferredLanguage}</p>
+      `,
+      attachments: [
+        {
+          filename: photoFile.originalname,
+          path: photoFile.path,
+        },
+        {
+          filename: certificatesFile.originalname,
+          path: certificatesFile.path,
+        },
+        {
+          filename: panFile.originalname,
+          path: panFile.path,
+        },
+        {
+          filename: aadharFile.originalname,
+          path: aadharFile.path,
+        },
+        {
+          filename: chequeFile.originalname,
+          path: chequeFile.path,
+        },
+      ],
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    // Clean up: delete temporary files
+    fs.unlinkSync(photoFile.path);
+    fs.unlinkSync(certificatesFile.path);
+    fs.unlinkSync(panFile.path);
+    fs.unlinkSync(aadharFile.path);
+    fs.unlinkSync(chequeFile.path);
+
+    res.status(200).json({ message: "Form submitted successfully" });
+  } catch (error) {
+    console.error("Error handling form submission:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

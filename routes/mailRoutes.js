@@ -35,6 +35,18 @@ router.post(
   mailControllers.postVendorMail
 );
 
+router.post(
+  "/send-counselor-form",
+  uploads.fields([
+    { name: "photo", maxCount: 1 },
+    { name: "certificates", maxCount: 1 },
+    { name: "panFile", maxCount: 1 },
+    { name: "aadharFile", maxCount: 1 },
+    { name: "chequeFile", maxCount: 1 },
+  ]),
+  mailControllers.postOnboardingMail
+);
+
 router.post("/send-mIntern", uploads.none(), mailControllers.postmInternMail);
 
 router.post("/send-pIntern", uploads.none(), mailControllers.postpInternMail);
