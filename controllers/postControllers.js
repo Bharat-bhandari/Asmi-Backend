@@ -2,21 +2,50 @@ const fs = require("fs");
 
 const Post = require("../models/Post");
 
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 exports.postBlogs = async (req, res) => {
-  const { originalname, path } = req.file;
-  const parts = originalname.split(".");
-  const ext = parts[parts.length - 1];
-  const newPath = path + "." + ext;
-  fs.renameSync(path, newPath);
+  // const { originalname, path } = req.file;
+  // const parts = originalname.split(".");
+  // const ext = parts[parts.length - 1];
+  // const newPath = path + "." + ext;
+  // fs.renameSync(path, newPath);
+
+  // const imgFile = req.file
+
+  // const { title, summary, content } = req.body;
+
+  // const postDoc = await Post.create({
+  //   title,
+  //   summary,
+  //   content,
+  //   cover: newPath,
+  // });
+
+  // res.json(postDoc);
+
+  const imgFile = req.file;
 
   const { title, summary, content } = req.body;
+
+  const response = await cloudinary.uploader.upload(imgFile.path);
+
+  const path = response.secure_url;
 
   const postDoc = await Post.create({
     title,
     summary,
     content,
-    cover: newPath,
+    cover: path,
   });
+
+  fs.unlinkSync(imgFile.path);
 
   res.json(postDoc);
 };
