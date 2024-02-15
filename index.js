@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 
 const nodemailer = require("nodemailer");
 
+//test
+
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
