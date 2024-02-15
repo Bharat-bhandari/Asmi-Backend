@@ -34,6 +34,14 @@ app.get("/", (req, res) => {
   res.json("test ok");
 });
 
+// doc file
+
+app.get("/agreement", (req, res) => {
+  res.download("./INDEPENDENT_CONTRACTOR_AGREEMENT.docx");
+});
+
+// doc file
+
 app.use(authRoutes);
 app.use(postRoutes);
 app.use(mailRoutes);
