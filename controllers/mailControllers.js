@@ -374,7 +374,7 @@ exports.postOnboardingMail = async (req, res) => {
         <p>Reference: ${reference}</p>
         <p>Reference Contact: ${referenceContact}</p>
         <p>Pancard : ${pan}</p>
-        <p>Aadhar No: ${aadharFile}</p>
+        <p>Aadhar No: ${aadhar}</p>
         <p>Bank Account Name: ${accountName}</p>
         <p>Bank Account Number: ${accountNumber}</p>
         <p>Bank Name: ${bankName}</p>
