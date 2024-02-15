@@ -297,6 +297,8 @@ exports.postOnboardingMail = async (req, res) => {
       specializations,
       reference,
       referenceContact,
+      pan,
+      aadhar,
       accountName,
       accountNumber,
       bankName,

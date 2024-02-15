@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 // doc file
 
 app.get("/agreement", (req, res) => {
-  res.download("./INDEPENDENT_CONTRACTOR_AGREEMENT.docx");
+  res.download("./INDEPENDENT_CONTRACTOR_AGREEMENT.pdf");
 });
 
 // doc file
