@@ -15,6 +15,8 @@ const counselorSchema = new mongoose.Schema({
   specializations: [{ type: String }],
   reference: { type: String },
   referenceContact: { type: String },
+  pan: { type: String },
+  aadhar: { type: String },
   accountName: { type: String },
   accountNumber: { type: String },
   bankName: { type: String },
