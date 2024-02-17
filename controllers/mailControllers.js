@@ -716,7 +716,7 @@ exports.postpInternMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "Felicia@asmi.life", // Change this to the recipient's email address
+      to: "shraddha@asmi.life", // Change this to the recipient's email address
       cc: "general.care@anjanajyoti.org",
 
       subject: "New Psychology Internship Form Submission",
