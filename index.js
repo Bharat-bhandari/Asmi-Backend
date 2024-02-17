@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 
 const nodemailer = require("nodemailer");
 
-//test
+//test2
 
 require("dotenv").config();
 
