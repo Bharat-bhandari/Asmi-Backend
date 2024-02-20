@@ -681,6 +681,7 @@ exports.postpInternMail = async (req, res) => {
       qnMember,
       whyPsycho,
       dedtime,
+      isHybrid,
       aoi,
       prevworked,
       prevworkdet,
@@ -699,14 +700,15 @@ exports.postpInternMail = async (req, res) => {
     Educational Information:
     - University Name: ${universityName}
     - College Name: ${collegeName}
-    - Dept, Course & Semester: ${dcs}
+    - Course, Year and Semester: ${dcs}
     
     Internship Preferences:
     - Member of Societies?: ${qnMember}
     
     Additional Information:
     - Why did you choose Psychology as a Subject?: ${whyPsycho}
-    - Ready to dedicate 20 hours a week for your internship?: ${dedtime}
+    - Are you ready to dedicate 3-5 hours per week for the internship?: ${dedtime}
+    - What mode would you like to opt for?: ${isHybrid}
     - Areas of Psychology that interest you the most: ${aoi}
     
     Previous Experience:
