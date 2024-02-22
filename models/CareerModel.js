@@ -16,6 +16,8 @@ const careerSchema = new mongoose.Schema({
   expRes: String,
   expText: String,
   shareSession: String,
+  accomplishments: String,
+  dailyPractice: String,
   noHour: String,
   available: String,
   specialization: String,

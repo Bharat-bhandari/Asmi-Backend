@@ -160,6 +160,8 @@ exports.postCareerMail = async (req, res) => {
       expRes,
       expText,
       shareSession,
+      accomplishments,
+      dailyPractice,
       noh,
       available,
       specialization,
@@ -180,6 +182,8 @@ exports.postCareerMail = async (req, res) => {
       expRes,
       expText,
       shareSession,
+      accomplishments,
+      dailyPractice,
       noHour: noh,
       available,
       specialization,
@@ -198,7 +202,7 @@ exports.postCareerMail = async (req, res) => {
     - Address:  ${address}
 
     Educational Background:
-    - High Degree Earned:  ${highDegree}
+    - Highest Educational Qualification:  ${highDegree}
     - Name of University:  ${universityName}
     - Year of Graduation:  ${yog}
 
@@ -206,12 +210,18 @@ exports.postCareerMail = async (req, res) => {
 
     Professional Credentials:
     - RCI Number:  ${Rci}
-    - No. of years practicing as a Psychologist:  ${noyPractice}
+    - Years of Experience as a Practising Psycholigst:  ${noyPractice}
 
     Online Counselling Experience:
     - Do you have experience in Online Counselling?:  ${expRes}
-    - If yes, please describe your experience in online counselling:  ${expText}
-    - Share a challenging counselling session:  ${shareSession}
+    - If yes, please describe your experience in online counselling:  
+    ${expText}
+    - Describe how your education has prepared you for your practice:  
+    ${shareSession}
+    - Briefly describe your major accomplishments in your ongoing activities or events which you have participated:  
+    ${accomplishments}
+    - With respect to your specialisation, explain how and what kind of people and issues you deal with in your daily practice: 
+    ${dailyPractice}
 
     Availability:
     - How many hours a day can you dedicate to our App?:  ${noh}
@@ -223,7 +233,7 @@ exports.postCareerMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "careers@asmi.life", // Change this to the recipient's email address
+      to: "careers@asmi.life",
       cc: "general.care@anjanajyoti.org",
       subject: "New Career Form Submission",
       text: emailMessage,
