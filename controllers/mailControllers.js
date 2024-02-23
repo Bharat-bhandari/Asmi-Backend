@@ -210,7 +210,7 @@ exports.postCareerMail = async (req, res) => {
 
     Professional Credentials:
     - RCI Number:  ${Rci}
-    - Years of Experience as a Practising Psycholigst:  ${noyPractice}
+    - Years of Experience as a Practising Psychologist:  ${noyPractice}
 
     Online Counselling Experience:
     - Do you have experience in Online Counselling?:  ${expRes}
