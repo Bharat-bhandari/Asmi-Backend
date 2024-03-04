@@ -25,6 +25,8 @@ function sendEmail({ recipient_email, message, userName }) {
       },
     });
 
+    console.log("Contact us");
+
     const emailMessage = `
     New Message from Contact Form
 
@@ -38,6 +40,7 @@ function sendEmail({ recipient_email, message, userName }) {
       from: process.env.EMAIL_USER,
       to: "hello@asmi.life",
       cc: "general.care@anjanajyoti.org",
+      // to: "bharatbhandari0302@gmail.com",
 
       subject: "New Message from Contact us - Asmi",
       text: emailMessage,
@@ -126,6 +129,7 @@ exports.postCareerMail = async (req, res) => {
     const file1 = req.files["degree"][0]; // Access the first file uploaded with field name 'file1'
     const file2 = req.files["cv"][0]; // Access the first file uploaded with field name 'file2'
 
+    console.log("MAILCONTROLLER.postCareerMail> file accessed successfully");
     const response1 = await cloudinary.uploader.upload(file1.path, {
       resource_type: "auto",
     });
@@ -133,6 +137,9 @@ exports.postCareerMail = async (req, res) => {
     const response2 = await cloudinary.uploader.upload(file2.path, {
       resource_type: "auto",
     });
+    console.log(
+      "MAILCONTROLLER.postCareerMail> file uploaded to cloudinary successfully"
+    );
 
     const path1 = response1.secure_url;
     const path2 = response2.secure_url;
@@ -177,7 +184,7 @@ exports.postCareerMail = async (req, res) => {
       universityName,
       yearOfGraduation: yog,
       languageKnown: lanKnown,
-      Rci,
+      rce: Rci,
       noYearPractice: noyPractice,
       expRes,
       expText,
@@ -190,7 +197,9 @@ exports.postCareerMail = async (req, res) => {
       degreeImage: path1, // Store degree image URL
       cvImage: path2, // Store CV image URL
     });
-
+    console.log(
+      "MAILCONTROLLER.postCareerMail> uploaded to momgodb successfully"
+    );
     const emailMessage = `
     New Form Submission:
 
@@ -235,6 +244,8 @@ exports.postCareerMail = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: "careers@asmi.life",
       cc: "general.care@anjanajyoti.org",
+      // to: "bharatbhandari0302@gmail.com",
+
       subject: "New Career Form Submission",
       text: emailMessage,
       attachments: [
@@ -252,7 +263,7 @@ exports.postCareerMail = async (req, res) => {
     // console.log(mailOptions);
 
     await transporter.sendMail(mailOptions);
-
+    console.log("MAILCONTROLLER.postCareerMail> mail send successfully");
     fs.unlinkSync(file1.path);
     fs.unlinkSync(file2.path);
 
@@ -273,6 +284,8 @@ exports.postOnboardingMail = async (req, res) => {
     const aadharFile = req.files["aadharFile"][0];
     const chequeFile = req.files["chequeFile"][0];
 
+    console.log("MAILCONTROLLER.postonboadingMail> file accessed successfully");
+
     // Upload files to Cloudinary
     const uploadPromises = [
       cloudinary.uploader.upload(photoFile.path, { resource_type: "auto" }),
@@ -286,6 +299,10 @@ exports.postOnboardingMail = async (req, res) => {
 
     // Wait for all uploads to complete
     const results = await Promise.all(uploadPromises);
+
+    console.log(
+      "MAILCONTROLLER.postbonoadingMail> file uploaded to cloudinary successfully"
+    );
 
     // Extract file URLs
     const [photoUrl, certificatesUrl, panUrl, aadharUrl, chequeUrl] =
@@ -303,7 +320,6 @@ exports.postOnboardingMail = async (req, res) => {
       about,
       qualification,
       workExperience,
-      psychologistExperience,
       specializations,
       reference,
       referenceContact,
@@ -331,7 +347,6 @@ exports.postOnboardingMail = async (req, res) => {
       about,
       qualification,
       workExperience,
-      psychologistExperience,
       specializations,
       reference,
       referenceContact,
@@ -352,6 +367,10 @@ exports.postOnboardingMail = async (req, res) => {
       chequeUrl,
     });
 
+    console.log(
+      "MAILCONTROLLER.postOnnoadingMail> uploaded to momgodb successfully"
+    );
+
     // Send email
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -365,6 +384,8 @@ exports.postOnboardingMail = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: "tanvi.gupta@asmi.life", // Change this to the recipient's email address
       cc: "general.care@anjanajyoti.org",
+      // to: "bharatbhandari0302@gmail.com",
+
       subject: "New Counselor Onboarding Form Submission",
       html: `
         <p>Dear Admin,</p>
@@ -420,6 +441,8 @@ exports.postOnboardingMail = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
+    console.log("MAILCONTROLLER.postOnboaringrMail> mail send successfully");
+
     // Clean up: delete temporary files
     fs.unlinkSync(photoFile.path);
     fs.unlinkSync(certificatesFile.path);
@@ -441,6 +464,8 @@ exports.postVendorMail = async (req, res) => {
     const file2 = req.files["gstFile"] ? req.files["gstFile"][0] : null;
     const file3 = req.files["cheque"][0];
 
+    console.log("MAILCONTROLLER.postVendorMail> file accessed successfully");
+
     // Upload images to Cloudinary
     const uploadPromises = [
       cloudinary.uploader.upload(file1.path, { resource_type: "auto" }),
@@ -453,6 +478,10 @@ exports.postVendorMail = async (req, res) => {
         resource_type: "auto",
       });
     }
+
+    console.log(
+      "MAILCONTROLLER.postVendorMail> file uploaded to cloudinary successfully"
+    );
 
     // Wait for all uploads to complete
     const results = await Promise.all(uploadPromises);
@@ -507,6 +536,10 @@ exports.postVendorMail = async (req, res) => {
       chequeImage,
     });
 
+    console.log(
+      "MAILCONTROLLER.postVendorrMail> uploaded to momgodb successfully"
+    );
+
     // Send email
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -549,6 +582,8 @@ exports.postVendorMail = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: "ayushi@anjanajyoti.org", // Change this to the recipient's email address
       cc: "general.care@anjanajyoti.org",
+      // to: "bharatbhandari0302@gmail.com",
+
       subject: "New Vendor Form Submission",
       text: emailMessage,
       attachments: [
@@ -573,6 +608,8 @@ exports.postVendorMail = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
+    console.log("MAILCONTROLLER.postVendorMail> mail send successfully");
+
     fs.unlinkSync(file1.path);
     if (file2) {
       fs.unlinkSync(file2.path);
@@ -596,6 +633,8 @@ exports.postmInternMail = async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
+
+    console.log("MAILCONTROLLER.postMInternMail> started  successfully");
 
     const {
       firstName,
@@ -653,6 +692,8 @@ exports.postmInternMail = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: "arvinder@anjanajyoti.org", // Change this to the recipient's email address
       cc: "general.care@anjanajyoti.org",
+      // to: "bharatbhandari0302@gmail.com",
+
       subject: "New Marketing Internship Form Submission",
       text: emailMessage,
     };
@@ -662,6 +703,7 @@ exports.postmInternMail = async (req, res) => {
     // Save the form data to the database
     await MIntern.create(req.body);
 
+    console.log("MAILCONTROLLER.postMInternMail>Ending successfully");
     res.send("Form submission successful");
   } catch (error) {
     console.error("Error handling form submission:", error);
@@ -678,6 +720,8 @@ exports.postpInternMail = async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
+
+    console.log("MAILCONTROLLER.postPInternMail> Started successfully");
 
     const {
       firstName,
@@ -730,6 +774,7 @@ exports.postpInternMail = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: "shraddha@asmi.life", // Change this to the recipient's email address
       cc: "general.care@anjanajyoti.org",
+      // to: "bharatbhandari0302@gmail.com",
 
       subject: "New Psychology Internship Form Submission",
       text: emailMessage,
@@ -739,6 +784,7 @@ exports.postpInternMail = async (req, res) => {
 
     // Save the form data to the database
     await PIntern.create(req.body);
+    console.log("MAILCONTROLLER.postPInternMail> Endeed successfully");
 
     res.send("Form submission successful");
   } catch (error) {
@@ -756,6 +802,8 @@ exports.postYogaMail = async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
+
+    console.log("MAILCONTROLLER.postYogaMail> Started successfully");
 
     const {
       firstName,
@@ -789,11 +837,15 @@ exports.postYogaMail = async (req, res) => {
       to: "arvinder@anjanajyoti.org", // Change this to the recipient's email address
       cc: "general.care@anjanajyoti.org",
 
+      // to: "bharatbhandari0302@gmail.com",
+
       subject: "New Form Submission",
       text: emailMessage,
     };
 
     await transporter.sendMail(mailOptions);
+
+    console.log("MAILCONTROLLER.postYogaMail> endined successfully");
 
     res.send("sent mail successful");
   } catch (error) {
@@ -812,6 +864,8 @@ exports.postAsseemnetMail = async (req, res) => {
       },
     });
 
+    console.log("MAILCONTROLLER.postAssesMentMail> Started successfully");
+
     const { name, email } = req.body;
 
     const emailMessage = `
@@ -829,11 +883,15 @@ exports.postAsseemnetMail = async (req, res) => {
       to: "hello@asmi.life", // Change this to the recipient's email address
       cc: "general.care@anjanajyoti.org",
 
+      // to: "bharatbhandari0302@gmail.com",
+
       subject: "New Form Submission",
       text: emailMessage,
     };
 
     await transporter.sendMail(mailOptions);
+
+    console.log("MAILCONTROLLER.postAssesMentMail> Nedne successfully");
 
     res.send("sent mail successful");
   } catch (error) {
