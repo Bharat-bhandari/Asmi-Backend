@@ -1,5 +1,6 @@
 const fs = require("fs");
 const Post = require("../models/Post");
+const { isValidObjectId } = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 
 // Configure Cloudinary
@@ -66,6 +67,12 @@ exports.getBlogs = async (req, res) => {
 exports.getSingleBlogs = async (req, res) => {
   console.log("POSTCONTROLLER --> Entering single blog");
   const { id } = req.params;
+
+  console.log("isValid=", isValidObjectId(id));
+
+  if (!isValidObjectId(id)) {
+    return res.status(400).json({ error: "Invalid blog ID" });
+  }
 
   console.log("POSTCONTROLLER --> Logging the id=", id);
 
