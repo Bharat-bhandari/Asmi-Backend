@@ -242,7 +242,7 @@ exports.postCareerMail = async (req, res) => {
 
     let mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "careers@asmi.life",
+      to: "shreya@asmi.life",
       cc: "general.care@anjanajyoti.org",
       // to: "bharatbhandari0302@gmail.com",
 
@@ -382,8 +382,12 @@ exports.postOnboardingMail = async (req, res) => {
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "tanvi.gupta@asmi.life", // Change this to the recipient's email address
-      cc: "general.care@anjanajyoti.org",
+      to: "shreya@asmi.life", // Change this to the recipient's email address
+      cc: [
+        "tanvi@asmi.life",
+        "ayushi@anjanajyoti.org",
+        "general.care@anjanajyoti.org",
+      ],
       // to: "bharatbhandari0302@gmail.com",
 
       subject: "New Counselor Onboarding Form Submission",
