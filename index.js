@@ -28,7 +28,7 @@ app.use(
     origin: [
       "https://asmi.life",
       "https://www.asmi.life",
-      "http://localhost:4001",
+      "http://localhost:5173",
     ],
   })
 );
