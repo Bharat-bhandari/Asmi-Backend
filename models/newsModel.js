@@ -3,6 +3,11 @@ const { Schema } = require("mongoose");
 
 const newsSchema = new Schema(
   {
+    category: {
+      type: String,
+      required: true,
+      uppercase: true,
+    },
     tag: {
       type: String,
       required: true,
@@ -23,6 +28,10 @@ const newsSchema = new Schema(
     content: {
       type: String,
       required: true,
+    },
+    socialmedialink: {
+      type: String,
+      // required: true,
     },
     coverImage: {
       type: String, //cloudinary url

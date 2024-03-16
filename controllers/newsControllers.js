@@ -36,7 +36,15 @@ module.exports.fetchNewsByID = async (req, res) => {
 
 module.exports.postNews = async (req, res) => {
   // get newsitem detail from request
-  const { tag, date, headline, subheadline, content } = await req.body;
+  const {
+    category,
+    tag,
+    date,
+    headline,
+    subheadline,
+    content,
+    socialmedialink,
+  } = await req.body;
 
   //get newsitem file from request
   const coverImagePath = req.files?.coverImage[0]?.path;
@@ -54,11 +62,13 @@ module.exports.postNews = async (req, res) => {
 
   //upload to database
   const newsItem = await News.create({
+    category,
     tag,
     date,
     headline,
     subheadline,
     content,
+    socialmedialink: socialmedialink || "",
     coverImage: coverImage.url || "",
   });
   if (!newsItem) {
