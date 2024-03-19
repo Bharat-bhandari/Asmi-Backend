@@ -36,6 +36,7 @@ module.exports.fetchNewsByID = async (req, res) => {
 
 module.exports.postNews = async (req, res) => {
   // get newsitem detail from request
+
   const {
     category,
     tag,

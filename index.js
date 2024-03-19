@@ -14,6 +14,8 @@ const mailRoutes = require("./routes/mailRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 // APPU
 const newsRoutes = require("./routes/newsRoutes");
+const selfAssessmentRoutes = require("./routes/selfAssessmentRoutes");
+const registeruserRoutes = require("./routes/registerUserRoutes");
 // APPU
 
 const app = express();
@@ -42,7 +44,11 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 app.get("/", (req, res) => {
   res.json("test ok");
 });
+app.post("/testpost", (req, res) => {
+  const { data } = req.body;
 
+  return res.json({ status: 201, data: data || "hello" });
+});
 // doc file
 
 app.get("/agreement", (req, res) => {
@@ -57,6 +63,9 @@ app.use(mailRoutes);
 app.use(paymentRoutes);
 // APPU
 app.use("/news", newsRoutes);
+// #############################################
+app.use("/assessyourself", selfAssessmentRoutes);
+app.use("/aru", registeruserRoutes);
 // APPU
 
 mongoose
