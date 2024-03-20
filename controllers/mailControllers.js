@@ -404,7 +404,7 @@ exports.postOnboardingMail = async (req, res) => {
         <p>About: ${about}</p>
         <p>Qualification: ${qualification}</p>
         <p>Work Experience: ${workExperience}</p>
-        <p>Psychologist Experience: ${psychologistExperience}</p>
+      
         <p>Specializations: ${specializations}</p>
         <p>Reference: ${reference}</p>
         <p>Reference Contact: ${referenceContact}</p>
