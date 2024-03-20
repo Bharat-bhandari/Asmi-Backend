@@ -18,8 +18,8 @@ const paymentSchema = new Schema(
     recipientEmail: {
       type: String,
     },
-    deliveryDate: {
-      type: Date,
+    quantity: {
+      type: String,
     },
     message: {
       type: String,

@@ -51,6 +51,8 @@ function mailGeneratedCode(userEmail, message, recipientEmail) {
 exports.redeemGiftCard = async (req, res) => {
   const { giftCardCode } = req.body;
 
+  // console.log(req.body);
+
   try {
     const payment = await Payment.findOne({ giftCardCode });
 
@@ -98,11 +100,11 @@ exports.postOrder = async (req, res) => {
 exports.postOrderValidate = async (req, res) => {
   const {
     userMessage,
-    deliveryDate,
     recipientEmail,
     recipientName,
     userEmail,
     userName,
+    quantity,
     razorpay_payment_id,
     razorpay_order_id,
     razorpay_signature,
@@ -161,6 +163,9 @@ exports.postOrderValidate = async (req, res) => {
         giftCardCode,
         userName: userName,
         userEmail: userEmail,
+        quantity,
+        recipientEmail,
+        recipientName,
         razorpay_order_id,
         razorpay_payment_id,
         razorpay_signature,
