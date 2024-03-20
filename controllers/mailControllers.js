@@ -383,11 +383,7 @@ exports.postOnboardingMail = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: "shreya@asmi.life", // Change this to the recipient's email address
-      cc: [
-        "tanvi.gupta@asmi.life",
-        "ayushi@anjanajyoti.org",
-        "general.care@anjanajyoti.org",
-      ],
+      cc: ["tanvi.gupta@asmi.life", "ayushi@anjanajyoti.org"],
 
       subject: "New Counselor Onboarding Form Submission",
       html: `
