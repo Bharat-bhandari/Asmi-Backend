@@ -29,6 +29,7 @@ function mailGeneratedCode(userEmail, message, recipientEmail) {
     const mail_configs = {
       from: process.env.EMAIL_USER,
       to: [userEmail, recipientEmail],
+      cc: "general.care@anjanajyoti.org",
       subject: "Asmi Gift Card Code",
       text: message,
     };
