@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 
-const EatingProblemSchema = new Schema(
+const SucideRiskSchema = new Schema(
   {
     username: {
       type: String,
@@ -27,20 +27,28 @@ const EatingProblemSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    qnfourres1: {
+      type: String,
+    },
+    qnfourres2: {
+      type: String,
+    },
     qn5: {
       type: Boolean,
-      required: true,
     },
-    score: {
-      type: Number,
+    qnfiveres: {
+      type: String,
+    },
+    result: {
+      type: String,
       required: true,
     },
   },
   { timestamps: true }
 );
-
-const EatingProblemAssessment = mongoose.model(
-  "EatingProblemAssessment",
-  EatingProblemSchema
+const SucideRiskAssessment = mongoose.model(
+  "SucideRiskAssessment",
+  SucideRiskSchema
 );
-module.exports = EatingProblemAssessment;
+
+module.exports = SucideRiskAssessment;

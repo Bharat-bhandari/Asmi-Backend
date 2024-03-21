@@ -17,6 +17,9 @@ const newsSchema = new Schema(
       type: String,
       required: true,
     },
+    publishedBy: {
+      type: String,
+    },
     headline: {
       type: String,
       required: true,
@@ -27,7 +30,7 @@ const newsSchema = new Schema(
     },
     content: {
       type: String,
-      required: true,
+      // required: true,
     },
     socialmedialink: {
       type: String,
