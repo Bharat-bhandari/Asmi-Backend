@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const EatingProblemAssessment = require("../models/selfAssessment/EatingProblemModel");
 const { response } = require("express");
 const MoodImbalanceAssessment = require("../models/selfAssessment/MoodImbalanceModel");
@@ -6,6 +7,7 @@ const SleepDisturbanceAssessment = require("../models/selfAssessment/SleepDistur
 const SucideRiskAssessment = require("../models/selfAssessment/SucideRiskModel");
 const DasAssessment = require("../models/selfAssessment/DasModel");
 const StressAssessment = require("../models/selfAssessment/StressModel");
+const AssessmentRegisteredUser = require("../models/AssessmentRegisterUserModel");
 
 // eating problem controllers
 exports.eatingproblemget = async (req, res) => {
@@ -13,8 +15,8 @@ exports.eatingproblemget = async (req, res) => {
 };
 
 exports.eatingproblempost = async (req, res) => {
-  const { username, email, q1, q2, q3, q4, q5 } = await req.body;
-  console.log("value from form ", q1, q2, q3, q4, q5);
+  const { username, email, q1, q2, q3, q4, q5, id } = await req.body;
+  console.log("value from form ", q1, q2, q3, q4, q5, id);
 
   let score = 0;
   const response = { status: "" };
@@ -55,10 +57,29 @@ exports.eatingproblempost = async (req, res) => {
   }
   console.log("Entry of eatingproblem form in databse successful");
 
-  if (score <= 2) {
+  if ((score) => 2) {
     response.status = "positive";
   } else {
     response.status = "negative";
+  }
+
+  // change form status
+
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400);
+    return res.json({ message: "couldnot validate" });
+  }
+
+  const updatedDocument = await AssessmentRegisteredUser.findByIdAndUpdate(
+    id,
+    { assessmentAppeared: true },
+    { new: true }
+  );
+
+  if (!updatedDocument) {
+    console.log("Document not found.");
+  } else {
+    console.log("Document updated successfully:", updatedDocument);
   }
 
   res.status(201);
