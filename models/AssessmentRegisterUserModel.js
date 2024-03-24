@@ -16,13 +16,20 @@ const AssessmentRegisteredUserSchema = new Schema(
       required: true,
     },
 
-    paymentid: {
+    assessmentAppeared: {
+      type: Boolean,
+      required: true,
+    },
+    razorpay_order_id: {
       type: String,
       required: true,
     },
-
-    assessmentAppeared: {
-      type: Boolean,
+    razorpay_payment_id: {
+      type: String,
+      required: true,
+    },
+    razorpay_signature: {
+      type: String,
       required: true,
     },
   },
