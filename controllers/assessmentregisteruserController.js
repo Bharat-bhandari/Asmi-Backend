@@ -58,7 +58,7 @@ module.exports.userFetch = async (req, res) => {
       const emailMessage = `<h1>Thanks for payment<h1>
    <p>Complete your assessment ob below link <p>
 
-   <a href="http://localhost:5173/assessmentURL/${newUser._id}">click here<a>
+   <a href="${process.env.ASSESS_PAGE_URL}/assessmentURL/${newUser._id}">click here<a>
    
   
     `;
