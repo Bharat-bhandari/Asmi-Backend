@@ -113,6 +113,7 @@ exports.moodimbalancepost = async (req, res) => {
     qnthree,
     qnfour,
     qnfive,
+    id,
   } = await req.body;
   console.log(
     "value from form ",
@@ -135,7 +136,8 @@ exports.moodimbalancepost = async (req, res) => {
     qntwo,
     qnthree,
     qnfour,
-    qnfive
+    qnfive,
+    id
   );
 
   let scoreqn1 = 0;
@@ -225,6 +227,22 @@ exports.moodimbalancepost = async (req, res) => {
   }
   console.log("Entry of moodimbalance form in databse successful");
 
+  // change form status
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400);
+    return res.json({ message: "couldnot validate" });
+  }
+  const updatedDocument = await AssessmentRegisteredUser.findByIdAndUpdate(
+    id,
+    { assessmentAppeared: true },
+    { new: true }
+  );
+  if (!updatedDocument) {
+    console.log("Document not found.");
+  } else {
+    console.log("Document updated successfully:", updatedDocument);
+  }
+
   res.status(201);
   return res.json({ status: 201, result: result });
 };
@@ -255,6 +273,7 @@ exports.sleepdisturbancepost = async (req, res) => {
     qnelevensubqn3,
     qnelevensubqn4,
     qnelevensubqn5,
+    id,
   } = await req.body;
   console.log(
     "value from form ",
@@ -275,7 +294,8 @@ exports.sleepdisturbancepost = async (req, res) => {
     qnelevensubqn2,
     qnelevensubqn3,
     qnelevensubqn4,
-    qnelevensubqn5
+    qnelevensubqn5,
+    id
   );
   // ###################score calculation
   let myarr = [qn1, qn2, qn3, qn4, qn5, qn6, qn7, qn8, qn9, qn10];
@@ -324,6 +344,25 @@ exports.sleepdisturbancepost = async (req, res) => {
     return res.json({ message: "couldnot add  to database" });
   }
   console.log("Entry of sleepdisturbance form in databse successful");
+
+  // change form status
+
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400);
+    return res.json({ message: "couldnot validate" });
+  }
+
+  const updatedDocument = await AssessmentRegisteredUser.findByIdAndUpdate(
+    id,
+    { assessmentAppeared: true },
+    { new: true }
+  );
+
+  if (!updatedDocument) {
+    console.log("Document not found.");
+  } else {
+    console.log("Document updated successfully:", updatedDocument);
+  }
 
   res.status(201);
   return res.json({ status: 201, result: result });
@@ -389,6 +428,25 @@ exports.sucideriskpost = async (req, res) => {
   }
   console.log("Entry of suciderisk form in database successful");
 
+  // change form status
+
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400);
+    return res.json({ message: "couldnot validate" });
+  }
+
+  const updatedDocument = await AssessmentRegisteredUser.findByIdAndUpdate(
+    id,
+    { assessmentAppeared: true },
+    { new: true }
+  );
+
+  if (!updatedDocument) {
+    console.log("Document not found.");
+  } else {
+    console.log("Document updated successfully:", updatedDocument);
+  }
+
   res.status(201);
   return res.json({ status: 201, result: result });
 };
@@ -423,6 +481,7 @@ exports.daspost = async (req, res) => {
     qn19,
     qn20,
     qn21,
+    id,
   } = await req.body;
   console.log(
     "value from form ",
@@ -448,7 +507,8 @@ exports.daspost = async (req, res) => {
     qn18,
     qn19,
     qn20,
-    qn21
+    qn21,
+    id
   );
   // ###################score calculation
   let depressionscore = 0;
@@ -532,6 +592,25 @@ exports.daspost = async (req, res) => {
   }
   console.log("Entry of das form in databse successful");
 
+  // change form status
+
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400);
+    return res.json({ message: "couldnot validate" });
+  }
+
+  const updatedDocument = await AssessmentRegisteredUser.findByIdAndUpdate(
+    id,
+    { assessmentAppeared: true },
+    { new: true }
+  );
+
+  if (!updatedDocument) {
+    console.log("Document not found.");
+  } else {
+    console.log("Document updated successfully:", updatedDocument);
+  }
+
   res.status(201);
   return res.json({ status: 201, result: result });
 };
@@ -542,8 +621,21 @@ exports.stressget = async (req, res) => {
 };
 
 exports.stresspost = async (req, res) => {
-  const { username, email, qn1, qn2, qn3, qn4, qn5, qn6, qn7, qn8, qn9, qn10 } =
-    await req.body;
+  const {
+    username,
+    email,
+    qn1,
+    qn2,
+    qn3,
+    qn4,
+    qn5,
+    qn6,
+    qn7,
+    qn8,
+    qn9,
+    qn10,
+    id,
+  } = await req.body;
   console.log(
     "value from form ",
     username,
@@ -557,7 +649,8 @@ exports.stresspost = async (req, res) => {
     qn7,
     qn8,
     qn9,
-    qn10
+    qn10,
+    id
   );
   // ###################score calculation
   let myarr1 = [qn1, qn2, qn3, qn6, qn9, qn10];
@@ -628,6 +721,25 @@ exports.stresspost = async (req, res) => {
   }
   console.log("Entry of stress form in databse successful");
 
+  // change form status
+
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400);
+    return res.json({ message: "couldnot validate" });
+  }
+
+  const updatedDocument = await AssessmentRegisteredUser.findByIdAndUpdate(
+    id,
+    { assessmentAppeared: true },
+    { new: true }
+  );
+
+  if (!updatedDocument) {
+    console.log("Document not found.");
+  } else {
+    console.log("Document updated successfully:", updatedDocument);
+  }
+
   res.status(201);
   return res.json({ status: 201, result: result });
 };
@@ -639,8 +751,21 @@ exports.lowselfesteemget = async (req, res) => {
 
 exports.lowselfesteempost = async (req, res) => {
   console.log("hii");
-  const { username, email, qn1, qn2, qn3, qn4, qn5, qn6, qn7, qn8, qn9, qn10 } =
-    await req.body;
+  const {
+    username,
+    email,
+    qn1,
+    qn2,
+    qn3,
+    qn4,
+    qn5,
+    qn6,
+    qn7,
+    qn8,
+    qn9,
+    qn10,
+    id,
+  } = await req.body;
   console.log(
     "value from form ",
     username,
@@ -654,7 +779,8 @@ exports.lowselfesteempost = async (req, res) => {
     qn7,
     qn8,
     qn9,
-    qn10
+    qn10,
+    id
   );
   // ###################score calculation
   let myarr1 = [qn1, qn3, qn4, qn7, qn10];
@@ -713,6 +839,25 @@ exports.lowselfesteempost = async (req, res) => {
     return res.json({ message: "couldnot add  to database" });
   }
   console.log("Entry of sleepdisturbance form in databse successful");
+
+  // change form status
+
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400);
+    return res.json({ message: "couldnot validate" });
+  }
+
+  const updatedDocument = await AssessmentRegisteredUser.findByIdAndUpdate(
+    id,
+    { assessmentAppeared: true },
+    { new: true }
+  );
+
+  if (!updatedDocument) {
+    console.log("Document not found.");
+  } else {
+    console.log("Document updated successfully:", updatedDocument);
+  }
 
   res.status(201);
   return res.json({ status: 201, result: result });
