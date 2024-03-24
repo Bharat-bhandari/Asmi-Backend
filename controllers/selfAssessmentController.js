@@ -87,6 +87,7 @@ exports.moodimbalancepost = async (req, res) => {
     qnonesubqn11,
     qnonesubqn12,
     qnonesubqn13,
+    qnonesubqn14,
     qntwo,
     qnthree,
     qnfour,
@@ -109,6 +110,7 @@ exports.moodimbalancepost = async (req, res) => {
     qnonesubqn11,
     qnonesubqn12,
     qnonesubqn13,
+    qnonesubqn14,
     qntwo,
     qnthree,
     qnfour,
@@ -158,6 +160,9 @@ exports.moodimbalancepost = async (req, res) => {
   if (qnonesubqn13 == true) {
     scoreqn1 += 1;
   }
+  if (qnonesubqn14 == true) {
+    scoreqn1 += 1;
+  }
 
   console.log("qn1 score calculated: ", scoreqn1);
 
@@ -186,6 +191,7 @@ exports.moodimbalancepost = async (req, res) => {
     qnonesubqn11,
     qnonesubqn12,
     qnonesubqn13,
+    qnonesubqn14,
     qntwo,
     qnthree,
     qnfour,
@@ -356,7 +362,7 @@ exports.sucideriskpost = async (req, res) => {
     res.status(400);
     return res.json({ message: "couldnot add  to database" });
   }
-  console.log("Entry of suciderisk form in databse successful");
+  console.log("Entry of suciderisk form in database successful");
 
   res.status(201);
   return res.json({ status: 201, result: result });

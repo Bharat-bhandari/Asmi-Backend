@@ -25,31 +25,37 @@ router.route("/eatingproblem/getformdata").get(eatingproblemget);
 
 //  moodimbalance
 
-router.route("moodimbalance/postformdata").post(moodimbalancepost);
-router.route("moodimbalance/getformdata").get(moodimbalanceget);
+router.route("/moodimbalance/postformdata").post(moodimbalancepost);
+
+router.route("/moodimbalance/getformdata").get(moodimbalanceget);
 
 // sleepdisturbance
 
-router.route("sleepdisturbanceget").get(sleepdisturbanceget);
-router.route("sleepdisturbancepost").post(sleepdisturbancepost);
+router.route("/sleepdisturbance/postformdata").post(sleepdisturbancepost);
+
+router.route("/sleepdisturbance/getformdata").get(sleepdisturbanceget);
 
 // suciderisk
 
-router.route("sucideriskget").get(sucideriskget);
-router.route("sucideriskpost").post(sucideriskpost);
+router.route("/suciderisk/postformdata").post(sucideriskpost);
+
+router.route("/suciderisk/getformdata").get(sucideriskget);
 
 // dass
 
-router.route("dassget").get(dasget);
-router.route("dasspost").post(daspost);
+router.route("/das/postformdata").post(daspost);
+
+router.route("/das/getformdata").get(dasget);
 
 // stress
 
-router.route("stressget").get(stressget);
-router.route("stresspost").post(stresspost);
+router.route("/stress/getformdata").get(stressget);
+
+router.route("/stress/postformdata").post(stresspost);
 
 // low self esteem
-router.route("lowselfesteemget").get(lowselfesteemget);
-router.route("lowselfesteempost").post(lowselfesteempost);
+router.route("lowselfesteem/postformdata").post(lowselfesteempost);
+
+router.route("lowselfesteem/getformdata").get(lowselfesteemget);
 
 module.exports = router;

@@ -63,6 +63,10 @@ const MoodImbalanceSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    qnonesubqn14: {
+      type: Boolean,
+      required: true,
+    },
     qntwo: {
       type: Boolean,
       required: true,
