@@ -11,6 +11,9 @@ const SleepDisturbanceSchema = new Schema(
       type: String,
       required: true,
     },
+    qn0: {
+      type: String,
+    },
     qn1: {
       type: String,
       required: true,

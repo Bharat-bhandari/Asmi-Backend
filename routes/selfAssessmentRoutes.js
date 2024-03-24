@@ -54,8 +54,8 @@ router.route("/stress/getformdata").get(stressget);
 router.route("/stress/postformdata").post(stresspost);
 
 // low self esteem
-router.route("lowselfesteem/postformdata").post(lowselfesteempost);
+router.route("/lowselfesteem/postformdata").post(lowselfesteempost);
 
-router.route("lowselfesteem/getformdata").get(lowselfesteemget);
+router.route("/lowselfesteem/getformdata").get(lowselfesteemget);
 
 module.exports = router;

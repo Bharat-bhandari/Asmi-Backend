@@ -217,6 +217,7 @@ exports.sleepdisturbancepost = async (req, res) => {
   const {
     username,
     email,
+    qn0,
     qn1,
     qn2,
     qn3,
@@ -227,6 +228,7 @@ exports.sleepdisturbancepost = async (req, res) => {
     qn8,
     qn9,
     qn10,
+
     qnelevensubqn1,
     qnelevensubqn2,
     qnelevensubqn3,
@@ -237,6 +239,7 @@ exports.sleepdisturbancepost = async (req, res) => {
     "value from form ",
     username,
     email,
+    qn0,
     qn1,
     qn2,
     qn3,
@@ -254,7 +257,7 @@ exports.sleepdisturbancepost = async (req, res) => {
     qnelevensubqn5
   );
   // ###################score calculation
-  let myarr = [qn2, qn3, qn4, qn5, qn6, qn7, qn8, qn9, qn10];
+  let myarr = [qn1, qn2, qn3, qn4, qn5, qn6, qn7, qn8, qn9, qn10];
   let scoreall = 0;
   myarr.map((qn) => {
     let indiscore = 0;
@@ -277,6 +280,7 @@ exports.sleepdisturbancepost = async (req, res) => {
   const sleepdisturbanceEntry = await SleepDisturbanceAssessment.create({
     username,
     email,
+    qn0,
     qn1,
     qn2,
     qn3,
@@ -613,6 +617,7 @@ exports.lowselfesteemget = async (req, res) => {
 };
 
 exports.lowselfesteempost = async (req, res) => {
+  console.log("hii");
   const { username, email, qn1, qn2, qn3, qn4, qn5, qn6, qn7, qn8, qn9, qn10 } =
     await req.body;
   console.log(
