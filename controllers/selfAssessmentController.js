@@ -386,6 +386,7 @@ exports.sucideriskpost = async (req, res) => {
     qnfourres2,
     qn5,
     qnfiveres,
+    id,
   } = await req.body;
   console.log(
     "value from form ",
@@ -398,7 +399,8 @@ exports.sucideriskpost = async (req, res) => {
     qnfourres1,
     qnfourres2,
     qn5,
-    qnfiveres
+    qnfiveres,
+    id
   );
   // ###################score calculation
 
