@@ -55,9 +55,39 @@ module.exports.userFetch = async (req, res) => {
         },
       });
 
-      const emailMessage = `<p>Please complete your assessment by clicking on the link below:</p>
-      <p><a href="${process.env.ASSESS_PAGE_URL}/assessmentURL/${newUser._id}">Click Here</a></p>
+      let assessmenttype = "";
+      if (assessmentCategory === "eatingproblem") {
+        assessmenttype = "Eating Problem";
+      } else if (assessmentCategory === "moodimbalance") {
+        assessmenttype = "Mood Imbalance";
+      } else if (assessmentCategory === "sleepdisturbance") {
+        assessmenttype = "Sllep Disturbance";
+      } else if (assessmentCategory === "suciderisk") {
+        assessmenttype = "Sucide Risk";
+      } else if (assessmentCategory === "das") {
+        assessmenttype = "Depression Anxiety and Stress";
+      } else if (assessmentCategory === "stress") {
+        assessmenttype = "Stress";
+      } else if (assessmentCategory === "lowselfesteem") {
+        assessmenttype = "Low Self Esteem";
+      }
+
+      const emailMessage = `  <div style="background-color: #f4f4f4; padding: 20px;">
+      <h3>Hello ${username},</h3>
+
+      <p>We are glad that you have taken the time to cater to the needs for maintaining your mental health. Taking the first step towards breaking your silence and moving forward will surely be a fruitful decision. We understand that you might be confused about whether or not you should be taking up a session with a counselor for ${assessmenttype}.</p>
+
+      <p><strong>Please <a href="${process.env.ASSESS_PAGE_URL}/assessmentURL/${newUser._id}">Click Here</a> to access the link for the assessment.</strong></p>
+      <p>Please note that you can only open and fill this form link once.</p>
+      <p>If the result says that further assessment is warranted, feel free to book a session with one of our counselors! <a href="${process.env.ASSESS_PAGE_URL}/counselors">go to counselors page </a></p>
+  <p>Lots of love,</p>
+  <p>Team Asmi</p>
+  
+    </div>
     `;
+      //   const emailMessage = `<p>Please complete your assessment by clicking on the link below:</p>
+      //   <p><a href="${process.env.ASSESS_PAGE_URL}/assessmentURL/${newUser._id}">Click Here</a></p>
+      // `;
 
       let mailOptions = {
         from: process.env.EMAIL_USER,
