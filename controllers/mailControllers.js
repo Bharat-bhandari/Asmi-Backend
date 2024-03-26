@@ -271,7 +271,7 @@ exports.postCareerMail = async (req, res) => {
     res.send("Uploads successful");
   } catch (error) {
     console.error("Error handling uploads:", error);
-    res.status(500).send("Error handling uploads");
+    res.status(500).json({ error: error });
   }
 };
 
@@ -384,6 +384,7 @@ exports.postOnboardingMail = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: "shreya@asmi.life", // Change this to the recipient's email address
       cc: ["tanvi.gupta@asmi.life", "ayushi@anjanajyoti.org"],
+      // to: "bharatbhandari0302@gmail.com",
 
       subject: "New Counselor Onboarding Form Submission",
       html: `
@@ -452,7 +453,7 @@ exports.postOnboardingMail = async (req, res) => {
     res.status(200).json({ message: "Form submitted successfully" });
   } catch (error) {
     console.error("Error handling form submission:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: error });
   }
 };
 
@@ -619,7 +620,7 @@ exports.postVendorMail = async (req, res) => {
     res.send("Uploads successful");
   } catch (error) {
     console.error("Error handling uploads:", error);
-    res.status(500).send("Error handling uploads");
+    res.status(500).json({ error: error });
   }
 };
 
