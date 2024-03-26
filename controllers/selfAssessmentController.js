@@ -59,7 +59,7 @@ exports.eatingproblempost = async (req, res) => {
 
   let result = "";
 
-  if ((score) => 2) {
+  if (score >= 2) {
     result = "positive";
   } else {
     result = "negative";
