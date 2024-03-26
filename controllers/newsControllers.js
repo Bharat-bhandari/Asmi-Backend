@@ -96,17 +96,20 @@ module.exports.deleteNews = async (req, res) => {
   try {
     const NewsItem = await News.findByIdAndDelete(id);
     if (!NewsItem) {
-      return res.status(400).json({
+      res.status(400);
+      return res.json({
         error: `couldnot findand delete newsItem with given id ${id}`,
       });
     }
 
-    res.status(201).json({
+    res.status(201);
+    return res.json({
       status: 201,
       message: "single newsItem deleted sucessfully",
       NewsItem,
     });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500);
+    return res.json({ error: "Internal server error" });
   }
 };
