@@ -834,6 +834,70 @@ exports.daspost = async (req, res) => {
     console.log("Document updated successfully:", updatedDocument);
   }
 
+  // mailstart
+
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: "teerthrajverma181001@gmail.com", // Change this to the recipient's email address
+    subject: `Depression Anxiety Stress Assessment Result of ${username}`,
+    html: `
+      <p>Depression Anxiety Stress Assessment.</p>
+      <p>User name: ${username}</p>
+      <p>User Email: ${email}</p>
+
+<div>
+      <p>The rating scale is as follows:</p>
+      <p> 0 Did not apply to me at all</p>
+      <p> 1 Applied to me to some degree, or some of the time</p>
+      <p>2 Applied to me to a considerable degree or a good part of time</p>
+      <p>3 Applied to me very much or most of the time</p>
+</div>
+
+      <p>Here are the responses:</p>
+
+
+      <ul>
+       
+      <li>1: I found it hard to wind down: ${qn1}</li>
+      <li>2: I was aware of dryness of my mouth: ${qn2}</li>
+      <li>3: I couldn’t seem to experience any positive feeling at all: ${qn3}</li>
+      <li>4: I experienced breathing difficulty (e.g. excessively rapid breathing, breathlessness in the absence of physical exertion): ${qn4}</li>
+      <li>5: I found it difficult to work up the initiative to do things: ${qn5}</li>
+      <li>6: I tended to over-react to situations: ${qn6}</li>
+      <li>7: I experienced trembling (e.g. in the hands): ${qn7}</li>
+      <li>8: I felt that I was using a lot of nervous energy: ${qn8}</li>
+      <li>9: I was worried about situations in which I might panic and make a fool of myself: ${qn9}</li>
+      <li>10: I felt that I had nothing to look forward to: ${qn10}</li>
+      <li>11: I found myself getting agitated: ${qn11}</li>
+      <li>12: I found it difficult to relax: ${qn12}</li>
+      <li>13: I felt down-hearted and blue: ${qn13}</li>
+      <li>14: I was intolerant of anything that kept me from getting on with what I was doing: ${qn14}</li>
+      <li>15: I felt I was close to panic: ${qn15}</li>
+      <li>16: I was unable to become enthusiastic about anything: ${qn16}</li>
+      <li>17: I felt I wasn’t worth much as a person: ${qn17}</li>
+      <li>18: I felt that I was rather touchy: ${qn18}</li>
+      <li>19: I was aware of the action of my heart in the absence of physical exertion (e.g. sense of heart rate increase, heart missing a beat): ${qn19}</li>
+      <li>20: I felt scared without any good reason: ${qn20}</li>
+      <li>21: I felt that life was meaningless: ${qn21}</li>
+    
+      </ul>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+
+  console.log("Depression Anxiety Stress mail send successfully");
+
+  //mailend
+
   res.status(201);
   return res.json({ status: 201, result: result });
 };
@@ -963,6 +1027,49 @@ exports.stresspost = async (req, res) => {
     console.log("Document updated successfully:", updatedDocument);
   }
 
+  // mailstart
+
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: "teerthrajverma181001@gmail.com", // Change this to the recipient's email address
+    subject: `Stress Assessment Result of ${username}`,
+    html: `
+      <p>Stress Assessment.</p>
+      <p>User name: ${username}</p>
+      <p>User Email: ${email}</p>
+      <p>Here are the responses:</p>
+      <ul>
+       
+    
+      <li>1. In the last month, how often have you been upset because of something that happened unexpectedly? :${qn1} </li>
+      <li>2. In the last month, how often have you felt that you were unable to control the important things in your life? :${qn2} </li>
+      <li>3. In the last month, how often have you felt nervous and stressed? :${qn3} </li>
+      <li>4. In the last month, how often have you felt confident about your ability to handle your personal problems? :${qn4} </li>
+      <li>5: In the last month, how often have you felt that things were going your way? :${qn5} </li>
+      <li>6. In the last month, how often have you found that you could not cope with all the things that you had to do? :${qn6} </li>
+      <li>7. In the last month, how often have you been able to control irritations in your life? :${qn7} </li>
+      <li>8. In the last month, how often have you felt that you were on top of things? :${qn8} </li>
+      <li>9. In the last month, how often have you been angered because of things that happened that were outside of your control? :${qn9} </li>
+      <li>10. In the last month, how often have you felt difficulties were piling up so high that you could not overcome them? :${qn10} </li>
+    
+      </ul>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+
+  console.log("Stress mail send successfully");
+
+  //mailend
+
   res.status(201);
   return res.json({ status: 201, result: result });
 };
@@ -1069,6 +1176,49 @@ exports.lowselfesteempost = async (req, res) => {
     res.status(400);
     return res.json({ message: "couldnot validate" });
   }
+
+  // mailstart
+
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: "teerthrajverma181001@gmail.com", // Change this to the recipient's email address
+    subject: `Low Self Esteem Assessment Result of ${username}`,
+    html: `
+      <p>Low Self Esteem Assessment.</p>
+      <p>User name: ${username}</p>
+      <p>User Email: ${email}</p>
+      <p>Here are the responses:</p>
+      <ul>
+       
+    
+      <li>On the whole, I am satisfied with myself :${qn1} </li>
+      <li>At times, I think I am no good at all :${qn2} </li>
+      <li>I feel that I have a number of good qualities :${qn3} </li>
+      <li>I am able to do things as well as most other people :${qn4} </li>
+      <li>I feel I do not have much to be proud of :${qn5} </li>
+      <li>I certainly feel useless at times :${qn6} </li>
+      <li>I feel that I'm a person of worth, at least on an equal plane with others :${qn7} </li>
+      <li>I wish I could have more respect for myself :${qn8} </li>
+      <li>All in all, I am inclined to feel that I am a failure :${qn9} </li>
+      <li>I take a positive attitude toward myself :${qn10} </li>
+    
+      </ul>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+
+  console.log("Low Self Esteem mail send successfully");
+
+  //mailend
 
   const updatedDocument = await AssessmentRegisteredUser.findByIdAndUpdate(
     id,
