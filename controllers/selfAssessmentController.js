@@ -1,4 +1,13 @@
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
+
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const EatingProblemAssessment = require("../models/selfAssessment/EatingProblemModel");
 const { response } = require("express");
@@ -56,6 +65,45 @@ exports.eatingproblempost = async (req, res) => {
     return res.json({ message: "couldnot add  to database" });
   }
   console.log("Entry of eatingproblem form in databse successful");
+
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
+    subject: `Eating Problem Assessment Result of ${username}`,
+    html: `
+      <p>Eating Problem Assessment.</p>
+      <p>User name: ${username}</p>
+      <p>User Email: ${email}</p>
+      <p>Here are the responses:</p>
+      <ul>
+        <li>Do you make yourself Sick because you feel uncomfortably full? ${
+          q1 ? "Yes" : "No"
+        }</li>
+        <li>Do you worry you have lost Control over how much you eat? ${
+          q2 ? "Yes" : "No"
+        }</li>
+        <li>Have you recently lost more than One stone (6.35 kg) in a three-month period? ${
+          q3 ? "Yes" : "No"
+        }</li>
+        <li>Do you believe yourself to be Fat when others say you are too thin? ${
+          q4 ? "Yes" : "No"
+        }</li>
+        <li>Would you say Food dominates your life? ${q5 ? "Yes" : "No"}</li>
+      </ul>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+
+  console.log("Eating Problem> mail send successfully");
 
   let result = "";
 
