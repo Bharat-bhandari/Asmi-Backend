@@ -846,7 +846,7 @@ exports.daspost = async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "teerthrajverma181001@gmail.com", // Change this to the recipient's email address
+    to: "shraddha@asmi.life", // Change this to the recipient's email address
     subject: `Depression Anxiety Stress Assessment Result of ${username}`,
     html: `
       <p>Depression Anxiety Stress Assessment.</p>
@@ -1039,7 +1039,7 @@ exports.stresspost = async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "teerthrajverma181001@gmail.com", // Change this to the recipient's email address
+    to: "shraddha@asmi.life", // Change this to the recipient's email address
     subject: `Stress Assessment Result of ${username}`,
     html: `
       <p>Stress Assessment.</p>
@@ -1189,7 +1189,7 @@ exports.lowselfesteempost = async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "teerthrajverma181001@gmail.com", // Change this to the recipient's email address
+    to: "shraddha@asmi.life", // Change this to the recipient's email address
     subject: `Low Self Esteem Assessment Result of ${username}`,
     html: `
       <p>Low Self Esteem Assessment.</p>
