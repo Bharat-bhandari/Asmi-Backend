@@ -1,14 +1,6 @@
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 
-const cloudinary = require("cloudinary").v2;
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
 const EatingProblemAssessment = require("../models/selfAssessment/EatingProblemModel");
 const { response } = require("express");
 const MoodImbalanceAssessment = require("../models/selfAssessment/MoodImbalanceModel");
@@ -76,7 +68,7 @@ exports.eatingproblempost = async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "bharatbhandari0302@gmail.com", // Change this to the recipient's email address
+    to: "shraddha@asmi.life", // Change this to the recipient's email address
     subject: `Eating Problem Assessment Result of ${username}`,
     html: `
       <p>Eating Problem Assessment.</p>
@@ -277,6 +269,87 @@ exports.moodimbalancepost = async (req, res) => {
   }
   console.log("Entry of moodimbalance form in databse successful");
 
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: "shraddha@asmi.life", // Change this to the recipient's email address
+    subject: `Mood Imbalance Assessment Result of ${username}`,
+    html: `
+      <p>Mood Imbalance Assessment</p>
+      <p>User name: ${username}</p>
+      <p>User Email: ${email}</p>
+      <p>Here are your responses:</p>
+      <ul>
+        <li>Has there ever been a period of time when you were not your usual self and... ${
+          qnonesubqn1 ? "Yes" : "No"
+        } </li>
+        <ul>
+          <li>... you felt so good or so hyper that other people thought you were not your normal self or you were so hyper that you got into trouble? ${
+            qnonesubqn2 ? "Yes" : "No"
+          }</li>
+          <li>... you were so irritable that you shouted at people or started fights or arguments? ${
+            qnonesubqn3 ? "Yes" : "No"
+          }</li>
+          <li>... Do you make yourself Sick because you feel uncomfortably full? ${
+            qnonesubqn4 ? "Yes" : "No"
+          }</li>
+          <li>... you got much less sleep than usual and found you didn't really miss it? ${
+            qnonesubqn5 ? "Yes" : "No"
+          }</li>
+          <li>... you were much more talkative or spoke faster than usual? ${
+            qnonesubqn6 ? "Yes" : "No"
+          }</li>
+          <li>... thoughts raced through your head or you couldn't slow your mind down? ${
+            qnonesubqn7 ? "Yes" : "No"
+          }</li>
+          <li>... you were so easily distracted by things around you that you had trouble concentrating or staying on track? ${
+            qnonesubqn8 ? "Yes" : "No"
+          }</li>
+          <li>... you had much more energy than usual? ${
+            qnonesubqn9 ? "Yes" : "No"
+          }</li>
+          <li>... you were much more active or did many more things than usual? ${
+            qnonesubqn10 ? "Yes" : "No"
+          }</li>
+          <li>... you were much more social or outgoing than usual, for example, you telephoned friends in the middle of the night? ${
+            qnonesubqn11 ? "Yes" : "No"
+          }</li>
+          <li>... Were you much more interested in sex than usual? ${
+            qnonesubqn12 ? "Yes" : "No"
+          }</li>
+          <li>... you did things that were unusual for you or that other people might have thought were excessive, foolish, or risky? ${
+            qnonesubqn13 ? "Yes" : "No"
+          }</li>
+          <li>... spending money got you or your family in trouble? ${
+            qnonesubqn14 ? "Yes" : "No"
+          }</li>
+        </ul>
+        <li>If you checked YES to more than one of the above, have several of these ever happened during the same period of time? ${
+          qntwo ? "Yes" : "No"
+        }</li>
+        <li>How much of a problem did any of these cause you — like being able to work; having family, money, or legal troubles; getting into arguments or fights? ${qnthree}</li>
+        <li>Have any of your blood relatives (ie, children, siblings, parents, grandparents, aunts, uncles) had manic-depressive illness or bipolar disorder? ${
+          qnfour ? "Yes" : "No"
+        }</li>
+        <li>Has a health professional ever told you that you have manic-depressive illness or bipolar disorder? ${
+          qnfive ? "Yes" : "No"
+        }</li>
+      </ul>
+    
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+
+  console.log("Mood Imbalance> mail send successfully");
+
   // change form status
   if (!mongoose.isValidObjectId(id)) {
     res.status(400);
@@ -395,6 +468,53 @@ exports.sleepdisturbancepost = async (req, res) => {
   }
   console.log("Entry of sleepdisturbance form in databse successful");
 
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: "shraddha@asmi.life", // Change this to the recipient's email address
+    subject: `Sleep Disturbance Assessment Result of ${username}`,
+    html: `
+      <p>Sleep Disturbance Assessment.</p>
+      <p>User name: ${username}</p>
+      <p>User Email: ${email}</p>
+      <p>Here are the responses:</p>
+      <ol>
+        <li>Over the past month, have you had a major stressful event that you feel affected your sleep? If so, please describe ...</li>
+        <ul>
+          <li>${qn0}</li>
+        </ul>
+        <li>Did you have difficulty falling asleep, staying asleep, or feeling poorly rested in the morning? ${qn1}</li>
+        <li>Did you fall asleep unintentionally or have to fight to stay awake during the day? ${qn2}</li>
+        <li>Did sleep difficulties or daytime sleepiness interfere with your daily activities? ${qn3}</li>
+        <li>Did work or other activities prevent you from getting enough sleep? ${qn4}</li>
+        <li>Did you snore loudly? ${qn5}</li>
+        <li>Did you hold your breath, have breathing pauses, or stop breathing in your sleep? ${qn6}</li>
+        <li>Did you have restless or "crawling" feelings in your legs at night that went away if you moved your legs? ${qn7}</li>
+        <li>Did you have repeated rhythmic leg jerks or leg twitches during your sleep? ${qn8}</li>
+        <li>Did you have nightmares, or did you scream, walk, punch, or kick in your sleep? ${qn9}</li>
+        <li>Did you feel sad or anxious? ${qn10}</li>
+        <li>Did the following things disturb your sleep:</li>
+        <ul>
+          <li>Pain: ${qnelevensubqn1}</li>
+          <li>Other physical problems: ${qnelevensubqn2}</li>
+          <li>Worries: ${qnelevensubqn3}</li>
+          <li>Medications: ${qnelevensubqn4}</li>
+          <li>Other: ${qnelevensubqn5}</li>
+        </ul>
+      </ol>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+  console.log("sleep disturbnace > mail send successfully");
+
   // change form status
 
   if (!mongoose.isValidObjectId(id)) {
@@ -479,6 +599,57 @@ exports.sucideriskpost = async (req, res) => {
     return res.json({ message: "couldnot add  to database" });
   }
   console.log("Entry of suciderisk form in database successful");
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: "shraddha@asmi.life", // Change this to the recipient's email address
+    subject: `Suicide Risk Assessment Result of ${username}`,
+    html: `
+      <p>Suicide Risk Assessment.</p>
+      <p>User name: ${username}</p>
+      <p>User Email: ${email}</p>
+      <p>Here are the responses:</p>
+      <ul>
+        <li>In the past few weeks, have you wished you were dead? ${
+          qn1 ? "Yes" : "No"
+        }</li>
+        <li>In the past few weeks, have you felt that you or your family would be better off if you were dead? ${
+          qn2 ? "Yes" : "No"
+        }</li>
+        <li>In the past week, have you been having thoughts about killing yourself? ${
+          qn3 ? "Yes" : "No"
+        }</li>
+        <li>Have you ever tried to kill yourself? ${qn4 ? "Yes" : "No"}</li>
+        <li>If yes, how?</li>
+        <ul>
+          <li>${qn4 ? qnfourres1 : "N/A"}</li>
+        </ul>
+        <li>When?</li>
+        <ul>
+          <li>${qn4 ? qnfourres2 : "N/A"}</li>
+        </ul>
+        <li>Are you having thoughts of killing yourself right now? ${
+          qn5 ? "Yes" : "No"
+        }</li>
+        <li>If yes, please describe:</li>
+        <ul>
+          <li>${qn5 ? qnfiveres : "N/A"}</li>
+        </ul>
+      </ul>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+
+  console.log("Suicide risk> mail send successfully");
 
   // change form status
 
