@@ -21,22 +21,22 @@ exports.eatingproblempost = async (req, res) => {
   let score = 0;
   const response = { status: "" };
 
-  if (q1 == true) {
+  if (q1 === true) {
     score += 1;
   }
-  if (q2 == true) {
+  if (q2 === true) {
     score += 1;
   }
-  if (q3 == true) {
+  if (q3 === true) {
     score += 1;
   }
-  if (q3 == true) {
+  if (q3 === true) {
     score += 1;
   }
-  if (q4 == true) {
+  if (q4 === true) {
     score += 1;
   }
-  if (q5 == true) {
+  if (q5 === true) {
     score += 1;
   }
   console.log("score calculated: ", score);
@@ -57,10 +57,12 @@ exports.eatingproblempost = async (req, res) => {
   }
   console.log("Entry of eatingproblem form in databse successful");
 
+  let result = "";
+
   if ((score) => 2) {
-    response.status = "positive";
+    result = "positive";
   } else {
-    response.status = "negative";
+    result = "negative";
   }
 
   // change form status
@@ -83,7 +85,7 @@ exports.eatingproblempost = async (req, res) => {
   }
 
   res.status(201);
-  return res.json({ status: 201, result: response.status });
+  return res.json({ status: 201, result: result });
 };
 
 //mood imbalance controllers
