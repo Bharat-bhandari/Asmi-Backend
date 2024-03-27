@@ -14,7 +14,7 @@ const newsSchema = new Schema(
       uppercase: true,
     },
     date: {
-      type: String,
+      type: Date,
       required: true,
     },
     publishedBy: {
