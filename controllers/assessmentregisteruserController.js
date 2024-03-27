@@ -79,7 +79,7 @@ module.exports.userFetch = async (req, res) => {
 
       <p><strong>Please <a href="${process.env.ASSESS_PAGE_URL}/assessmentURL/${newUser._id}">Click Here</a> to access the link for the assessment.</strong></p>
       <p>Please note that you can only open and fill this form link once.</p>
-      <p>If the result says that further assessment is warranted, feel free to book a session with one of our counselors! <a href="${process.env.ASSESS_PAGE_URL}/counselors">go to counselors page </a></p>
+      <p>If the result says that further assessment is warranted, feel free to book a session with one of our counselors! <a href="https://play.google.com/store/apps/details?id=com.anjanajyoti.asmi">go to counselors page </a></p>
   <p>Lots of love,</p>
   <p>Team Asmi</p>
   

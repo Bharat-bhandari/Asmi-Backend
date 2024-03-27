@@ -58,6 +58,16 @@ exports.eatingproblempost = async (req, res) => {
   }
   console.log("Entry of eatingproblem form in databse successful");
 
+  let result = "";
+
+  if (score >= 2) {
+    result = "positive";
+  } else {
+    result = "negative";
+  }
+
+  const finalResult = result === "positive" ? "Warranted" : "Not Warranted";
+
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -69,6 +79,7 @@ exports.eatingproblempost = async (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "shraddha@asmi.life", // Change this to the recipient's email address
+    cc: "general.care@anjanajyoti.org",
     subject: `Eating Problem Assessment Result of ${username}`,
     html: `
       <p>Eating Problem Assessment.</p>
@@ -89,21 +100,17 @@ exports.eatingproblempost = async (req, res) => {
           q4 ? "Yes" : "No"
         }</li>
         <li>Would you say Food dominates your life? ${q5 ? "Yes" : "No"}</li>
-      </ul>
+        </ul>
+        <p>User total score is: ${score}</p>
+        <p>Result: ${finalResult}</p>
+        
+
     `,
   };
 
   await transporter.sendMail(mailOptions);
 
   console.log("Eating Problem> mail send successfully");
-
-  let result = "";
-
-  if (score >= 2) {
-    result = "positive";
-  } else {
-    result = "negative";
-  }
 
   // change form status
 
@@ -240,6 +247,8 @@ exports.moodimbalancepost = async (req, res) => {
       ? "positive"
       : "negative";
 
+  const finalResult = result === "positive" ? "Warranted" : "Not Warranted";
+
   const moodimbalanceEntry = await MoodImbalanceAssessment.create({
     username,
     email,
@@ -280,6 +289,7 @@ exports.moodimbalancepost = async (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "shraddha@asmi.life", // Change this to the recipient's email address
+    cc: "general.care@anjanajyoti.org",
     subject: `Mood Imbalance Assessment Result of ${username}`,
     html: `
       <p>Mood Imbalance Assessment</p>
@@ -342,6 +352,8 @@ exports.moodimbalancepost = async (req, res) => {
           qnfive ? "Yes" : "No"
         }</li>
       </ul>
+      <p>Result: ${finalResult}</p>
+
     
     `,
   };
@@ -440,6 +452,8 @@ exports.sleepdisturbancepost = async (req, res) => {
   let result = "";
   result = scoreall >= 11 ? "positive" : "negative";
 
+  const finalResult = result === "positive" ? "Warranted" : "Not Warranted";
+
   // ############################database entry
   const sleepdisturbanceEntry = await SleepDisturbanceAssessment.create({
     username,
@@ -479,6 +493,7 @@ exports.sleepdisturbancepost = async (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "shraddha@asmi.life", // Change this to the recipient's email address
+    cc: "general.care@anjanajyoti.org",
     subject: `Sleep Disturbance Assessment Result of ${username}`,
     html: `
       <p>Sleep Disturbance Assessment.</p>
@@ -509,6 +524,8 @@ exports.sleepdisturbancepost = async (req, res) => {
           <li>Other: ${qnelevensubqn5}</li>
         </ul>
       </ol>
+      <p>User total score is: ${scoreall}</p>
+      <p>Result: ${finalResult}</p>
     `,
   };
 
@@ -580,6 +597,8 @@ exports.sucideriskpost = async (req, res) => {
       ? "positive"
       : "negative";
 
+  const finalResult = result === "positive" ? "Warranted" : "Not Warranted";
+
   // ############################database entry
   const sucideriskEntry = await SucideRiskAssessment.create({
     username,
@@ -611,6 +630,8 @@ exports.sucideriskpost = async (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "shraddha@asmi.life", // Change this to the recipient's email address
+    cc: "general.care@anjanajyoti.org",
+
     subject: `Suicide Risk Assessment Result of ${username}`,
     html: `
       <p>Suicide Risk Assessment.</p>
@@ -644,6 +665,8 @@ exports.sucideriskpost = async (req, res) => {
           <li>${qn5 ? qnfiveres : "N/A"}</li>
         </ul>
       </ul>
+      <p>Result: ${finalResult}</p>
+
     `,
   };
 
@@ -753,31 +776,33 @@ exports.daspost = async (req, res) => {
       ? "Severe"
       : "ExtremelySevere";
   let anxietyresult =
-    anxietyscore <= 9
+    anxietyscore <= 7
       ? "Normal"
-      : anxietyscore <= 13
+      : anxietyscore <= 9
       ? "Mild"
-      : anxietyscore <= 20
+      : anxietyscore <= 14
       ? "Moderate"
-      : anxietyscore <= 27
+      : anxietyscore <= 19
       ? "Severe"
       : "ExtremelySevere";
   let stressresult =
-    stressscore <= 9
+    stressscore <= 14
       ? "Normal"
-      : stressscore <= 13
+      : stressscore <= 18
       ? "Mild"
-      : stressscore <= 20
+      : stressscore <= 25
       ? "Moderate"
-      : stressscore <= 27
+      : stressscore <= 33
       ? "Severe"
       : "ExtremelySevere";
 
   let result = "";
   result =
-    depressionscore >= 10 || anxietyscore >= 10 || stressscore >= 10
+    depressionscore >= 10 || anxietyscore >= 8 || stressscore >= 15
       ? "positive"
       : "negative";
+
+  const finalResult = result === "positive" ? "Warranted" : "Not Warranted";
 
   // ############################database entry
   const dasEntry = await DasAssessment.create({
@@ -847,6 +872,7 @@ exports.daspost = async (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "shraddha@asmi.life", // Change this to the recipient's email address
+    cc: "general.care@anjanajyoti.org",
     subject: `Depression Anxiety Stress Assessment Result of ${username}`,
     html: `
       <p>Depression Anxiety Stress Assessment.</p>
@@ -889,6 +915,9 @@ exports.daspost = async (req, res) => {
       <li>21: I felt that life was meaningless: ${qn21}</li>
     
       </ul>
+
+      <p>Result: ${finalResult}</p>
+
     `,
   };
 
@@ -983,7 +1012,9 @@ exports.stresspost = async (req, res) => {
       : "percieved stress";
 
   let result = "";
-  result = scoreall >= 13 ? "positive" : "negative";
+  result = scoreall >= 14 ? "positive" : "negative";
+
+  const finalResult = result === "positive" ? "Warranted" : "Not Warranted";
 
   // ############################database entry
   const stressEntry = await StressAssessment.create({
@@ -1040,6 +1071,8 @@ exports.stresspost = async (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "shraddha@asmi.life", // Change this to the recipient's email address
+    cc: "general.care@anjanajyoti.org",
+
     subject: `Stress Assessment Result of ${username}`,
     html: `
       <p>Stress Assessment.</p>
@@ -1061,6 +1094,9 @@ exports.stresspost = async (req, res) => {
       <li>10. In the last month, how often have you felt difficulties were piling up so high that you could not overcome them? :${qn10} </li>
     
       </ul>
+
+      <p>User total score is: ${scoreall}</p>
+      <p>Result: ${finalResult}</p>
     `,
   };
 
@@ -1143,9 +1179,11 @@ exports.lowselfesteempost = async (req, res) => {
     scoreall += indiscore;
   });
   console.log("score calculated: ", scoreall);
-  let score = scoreall <= 15 ? "problemetic" : "okay";
+  let score = scoreall < 15 ? "problemetic" : "okay";
   let result = "";
-  result = scoreall <= 15 ? "positive" : "negative";
+  result = scoreall < 15 ? "positive" : "negative";
+
+  const finalResult = result === "positive" ? "Warranted" : "Not Warranted";
 
   // ############################database entry
   const sleepdisturbanceEntry = await SleepDisturbanceAssessment.create({
@@ -1190,6 +1228,8 @@ exports.lowselfesteempost = async (req, res) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "shraddha@asmi.life", // Change this to the recipient's email address
+    cc: "general.care@anjanajyoti.org",
+
     subject: `Low Self Esteem Assessment Result of ${username}`,
     html: `
       <p>Low Self Esteem Assessment.</p>
@@ -1211,6 +1251,9 @@ exports.lowselfesteempost = async (req, res) => {
       <li>I take a positive attitude toward myself :${qn10} </li>
     
       </ul>
+
+      <p>User total score is: ${scoreall}</p>
+      <p>Result: ${finalResult}</p>
     `,
   };
 
